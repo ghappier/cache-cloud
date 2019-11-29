@@ -1,0 +1,55 @@
+
+server:
+    port: 8100
+
+spring:
+    profiles:
+        active: dev
+
+mybatis-plus:
+    mapper-locations: classpath*:/mapper/*.xml
+    # 实体扫描，多个package用逗号或者分号分隔
+    typeAliasesPackage: com.lizq.cache.entity
+    #  typeEnumsPackage: com.baomidou.springboot.entity.enums
+    global-config:
+        db-config:
+            # 主键类型
+            #AUTO(0, "数据库ID自增"),
+            #INPUT(1, "用户输入ID"),
+            #ID_WORKER(2, "全局唯一ID"),
+            #UUID(3, "全局唯一ID"),
+            #NONE(4, "该类型为未设置主键类型"),
+            #ID_WORKER_STR(5, "字符串全局唯一ID");
+            id-type: 5
+            table-prefix: t_
+            table-underline: true
+            # 字段策略 0:"忽略判断", 1:"非 NULL 判断"), 2:"非空判断"（@Deprecated，已拆分成insert-strategy、update-strategy、select-strategy）
+            # field-strategy: 1
+            # 逻辑删除配置（下面3个配置）
+            logic-delete-value: 1
+            logic-not-delete-value: 0
+            # 更新字段策略
+            # IGNORED(0) 忽略判断，所有字段都更新和插入,
+            # NOT_NULL(1) 非NULL判断，只更新和插入非NULL值,
+            # NOT_EMPTY(2) 非空判断，只更新和插入非NULL值且非空字符串,
+            # DEFAULT(3) 默认NOT_NULL,
+            # NEVER(4);
+            update-strategy: 1
+    configuration:
+        map-underscore-to-camel-case: true
+
+dubbo:
+    application:
+        id: user-provider
+        name: user-provider
+    registry:
+        # address: zookeeper://127.0.0.1:2181
+        timeout: 40000
+    provider:
+        threads: 10
+        threadpool: fixed
+        retries: 3
+        loadbalance: roundrobin
+    protocol:
+        name: dubbo
+        port: 20880

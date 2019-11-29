@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>cache-provider</contextName>
+    <springProperty scope="context" name="LOG_HOME" source="log.home" defaultValue="logs"/>
+    <property name="LOG_NAME" value="provider"/>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36}.%M:%line - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${LOG_NAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${LOG_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern><!--按天回滚-->
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>7</maxHistory><!-- 日志最大的历史: 7天，不包括当天 -->
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36}.%M:%line - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <springProfile name="dev,test">
+        <root level="DEBUG">
+            <appender-ref ref="console"/>
+        </root>
+        <logger name="org.springframework"/>
+        <logger name="com.alibaba"/>
+        <logger name="org.apache.dubbo"/>
+        <logger name="org.mybatis"/>
+        <logger name="com.baomidou.mybatisplus"/>
+        <logger name="com.lizq.cache"/>
+    </springProfile>
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file"/>
+        </root>
+        <logger name="org.springframework"/>
+        <logger name="com.alibaba"/>
+        <logger name="org.apache.dubbo"/>
+        <logger name="org.mybatis"/>
+        <logger name="com.baomidou.mybatisplus"/>
+        <logger name="com.lizq.cache"/>
+    </springProfile>
+
+</configuration>
