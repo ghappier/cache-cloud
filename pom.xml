@@ -53,7 +53,7 @@
         <guava.version>28.1-jre</guava.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-codec.version>1.13</commons-codec.version>
-        <jsoup.version>1.12.1</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
     </properties>
 
     <dependencyManagement>
